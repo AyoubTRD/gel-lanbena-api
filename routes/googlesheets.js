@@ -1,10 +1,12 @@
 const router = require("express").Router();
-const client = require("../gs");
+const createClient = require("../gs");
 const { google } = require("googleapis");
 const Request = require("../models/Request");
 
 const updateSpreadSheets = async () => {
   try {
+    const client = await createClient();
+    console.log(client);
     const requests = await Request.find({});
     const formattedRequests = requests.map(
       ({ name, phone, quantity, address }) => [name, phone, quantity, address]
@@ -19,7 +21,7 @@ const updateSpreadSheets = async () => {
         values: formattedRequests
       }
     };
-    const res = await gsapi.spreadsheets.values.update(options);
+    await gsapi.spreadsheets.values.update(options);
   } catch (e) {
     console.log(e);
   }
@@ -31,7 +33,7 @@ router.post("/", async (req, res) => {
     res.send(201);
     updateSpreadSheets();
   } catch (e) {
-    console.log(e.message);
+    console.log("error", e.message);
     res.status(400).send();
   }
 });
