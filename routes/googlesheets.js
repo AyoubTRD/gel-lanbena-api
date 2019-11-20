@@ -11,11 +11,11 @@ const updateSpreadSheets = async () => {
     const formattedRequests = requests.map(
       ({ name, phone, quantity, address }) => [name, phone, quantity, address]
     );
-    const spreadsheetId = "11eC4HqXVlstnPEYuTz_vwZaqFVhD8UyeJi3IA81jzuQ";
+    const spreadsheetId = "1CreV7X8DszfXml2NMFQwYu0-Q5b31NZ5EVUHc26H5QQ";
     const gsapi = google.sheets({ version: "v4", auth: client });
     const options = {
       spreadsheetId,
-      range: "Sheet1!A2",
+      range: "lanbenagel!A2",
       valueInputOption: "USER_ENTERED",
       resource: {
         values: formattedRequests
@@ -26,7 +26,7 @@ const updateSpreadSheets = async () => {
     console.log(e);
   }
 };
-router.post("/", async (req, res) => {
+router.post("/request", async (req, res) => {
   try {
     const request = new Request(req.body);
     await request.save();
