@@ -6,11 +6,10 @@ const Request = require("../models/Request");
 const updateSpreadSheets = async () => {
   try {
     const client = await createClient();
-    console.log(client);
     const requests = await Request.find({});
     const formattedRequests = requests.map(
       ({ name, phone, quantity, address }) => [name, phone, quantity, address]
-    );
+    ).reverse();
     const spreadsheetId = "1CreV7X8DszfXml2NMFQwYu0-Q5b31NZ5EVUHc26H5QQ";
     const gsapi = google.sheets({ version: "v4", auth: client });
     const options = {
